@@ -648,14 +648,15 @@ Please modify "admin_key" in conf/config.yaml .
     sys_conf["extra_lua_path"] = get_lua_path(yaml_conf.apisix.extra_lua_path)
     sys_conf["extra_lua_cpath"] = get_lua_path(yaml_conf.apisix.extra_lua_cpath)
 
-    local conf_render = template.compile(ngx_tpl)
-    local ngxconf = conf_render(sys_conf)
+    --  关闭初始化 nginx.conf 
+    -- local conf_render = template.compile(ngx_tpl)
+    -- local ngxconf = conf_render(sys_conf)
 
-    local ok, err = util.write_file(env.apisix_home .. "/conf/nginx.conf",
-                                    ngxconf)
-    if not ok then
-        util.die("failed to update nginx.conf: ", err, "\n")
-    end
+    -- local ok, err = util.write_file(env.apisix_home .. "/conf/nginx.conf",
+    --                                 ngxconf)
+    -- if not ok then
+    --     util.die("failed to update nginx.conf: ", err, "\n")
+    -- end
 end
 
 

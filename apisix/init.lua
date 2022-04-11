@@ -90,6 +90,8 @@ end
 
 
 function _M.http_init_worker()
+    
+    -- 获取随机数
     local seed, err = core.utils.get_seed_from_urandom()
     if not seed then
         core.log.warn('failed to get seed from urandom: ', err)
@@ -99,17 +101,23 @@ function _M.http_init_worker()
     -- for testing only
     core.log.info("random test in [1, 10000]: ", math.random(1, 10000))
 
+    -- 此模块提供了一种向Nginx服务器中的其他工作进程发送事件的方法.
     local we = require("resty.worker.events")
     local ok, err = we.configure({shm = "worker-events", interval = 0.1})
     if not ok then
         error("failed to init worker event: " .. err)
     end
+    -- 服务发现
     local discovery = require("apisix.discovery.init").discovery
     if discovery and discovery.init_worker then
         discovery.init_worker()
     end
+    -- do nothing
     require("apisix.balancer").init_worker()
+
+    -- worker的全局变量
     load_balancer = require("apisix.balancer")
+
     require("apisix.admin.init").init_worker()
 
     require("apisix.timers").init_worker()
