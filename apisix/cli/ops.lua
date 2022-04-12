@@ -725,6 +725,7 @@ local function start(env, ...)
 
     init(env)
     init_etcd(env, args)
+    print(env.openresty_args)
 
     util.execute_cmd(env.openresty_args)
 end
