@@ -74,6 +74,7 @@ function _M.http_init(args)
     core.resolver.init_resolver(args)
     core.id.init()
 
+    -- 开启特权进程
     local process = require("ngx.process")
     local ok, err = process.enable_privileged_agent()
     if not ok then
