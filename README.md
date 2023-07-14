@@ -15,7 +15,7 @@
 
 ### 打镜像
 ```
-docker build  -t apisix:ty3.2  .
+docker build  -t tyltr_apisix:3.2LTS  .
 ```
 ### 运行容器
 

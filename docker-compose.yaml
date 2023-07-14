@@ -1,7 +1,8 @@
 version: '3'
 services: 
   apisix:
-    image: apisix:ty3.2
+    image: tyltr_apisix:3.2LTS
+    container_name: tyltr_apisix
     restart: always
     volumes:
       - ./docker_file/apisix/config-default.yaml:/usr/local/apisix/conf/config-default.yaml:ro
