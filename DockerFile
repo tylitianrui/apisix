@@ -1,4 +1,4 @@
-FROM openresty/openresty:1.19.3.1-alpine-fat
+FROM openresty/openresty:1.21.4.1-alpine-fat
 RUN set -x \
     && /bin/sed -i 's,http://dl-cdn.alpinelinux.org,https://mirrors.aliyun.com,g' /etc/apk/repositories \
     && apk add --no-cache --virtual .builddeps \
@@ -26,12 +26,14 @@ COPY rockspec rockspec
 RUN luarocks install rockspec/apisix-master-0.rockspec --tree=/usr/local/apisix/deps PCRE_DIR=/usr/local/openresty/pcre ]
 COPY Makefile Makefile
 COPY conf conf
+
+ENV PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/usr/local/openresty/bin
 # 代码
 COPY apisix apisix
-ENV PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/usr/local/openresty/bin
 
 EXPOSE 9080  9091
 CMD ["sh", "-c", "cd /usr/local/apisix && bin/apisix init && bin/apisix init_etcd && /usr/local/openresty/bin/openresty -p /usr/local/apisix -g 'daemon off;'"]
 STOPSIGNAL SIGQUIT
 
 
+# docker buildx build --platform linux/amd64,linux/arm64 -t tylitianrui/apisix_3.2lts:v2 --push .
